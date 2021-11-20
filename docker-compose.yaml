@@ -9,10 +9,6 @@ services:
       target: dev
     volumes:
       - .:/app
-    environment:
-      - POSTGRES_USER=${DB_USER}
-      - POSTGRES_PASSWORD=${DB_PASSWORD}
-      - POSTGRES_DB=${DB_NAME}
     ports:
       - "5000:5000"
       - "2345:2345"
