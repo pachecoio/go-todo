@@ -75,17 +75,9 @@ func (handler *TodoHandler) Update(c *fiber.Ctx) error {
 		return c.Status(400).JSON(fiber.Map{"status": "error", "message": "Review your input", "data": err})
 	}
 
-	if todoData.Name != "" {
-		todo.Name = todoData.Name
-	}
-
-	if todoData.Description != "" {
-		todo.Description = todoData.Description
-	}
-
-	if todoData.Status != "" {
-		todo.Status = todoData.Status
-	}
+	todo.Name = todoData.Name
+	todo.Description = todoData.Description
+	todo.Status = todoData.Status
 
 	item, err := handler.repository.Save(todo)
 
@@ -113,7 +105,7 @@ func (handler *TodoHandler) Delete(c *fiber.Ctx) error {
 	if RowsAffected == 0 {
 		statusCode = 400
 	}
-	return c.Status(statusCode).JSON("")
+	return c.Status(statusCode).JSON(nil)
 }
 
 func NewTodoHandler(repository *TodoRepository) *TodoHandler {
