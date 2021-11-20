@@ -1,0 +1,147 @@
+swagger: "2.0"
+info:
+  description: "Simple swagger for the HTTP requests of a todo API"
+  version: "1.0.0"
+  title: "Swagger Golang Todo API"
+  contact:
+    email: "hi@pacheco.io"
+host: "localhost:5000"
+basePath: "/api"
+schemes:
+- "http"
+paths:
+  /todo:
+    post:
+      tags:
+      - "Todo"
+      summary: "Create a new Todo"
+      description: ""
+      operationId: "createTodo"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Todo object to create"
+        required: true
+        schema:
+          $ref: "#/definitions/CreateTodo"
+      responses:
+        "200":
+          description: "Todo created response"
+          schema:
+            $ref: "#/definitions/Todo"
+        "400":
+          description: "Invalid input"
+    get:
+      tags:
+      - "Todo"
+      summary: "Get a list of todos"
+      description: ""
+      operationId: "getTodos"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      responses:
+        "200":
+          description: "List of todos"
+          schema:
+            $ref: "#/definitions/TodoList"
+  /todo/{id}:
+    get:
+      tags:
+      - "Todo"
+      summary: "Get Todo by id"
+      description: ""
+      operationId: "Get a single Todo by ID"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "path"
+        name: "id"
+        type: integer
+        required: true
+      responses:
+        "200":
+          description: "Todo object response"
+          schema:
+            $ref: "#/definitions/Todo"
+        "400":
+          description: "Invalid input"
+    put:
+      tags:
+      - "Todo"
+      summary: "Update a Todo"
+      description: ""
+      operationId: "updateTodo"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "path"
+        name: "id"
+        type: integer
+        required: true
+      - in: "body"
+        name: "body"
+        description: "Todo object to create"
+        required: true
+        schema:
+          $ref: "#/definitions/CreateTodo"
+      responses:
+        "200":
+          description: "Updated Todo"
+          schema:
+            $ref: "#/definitions/Todo"
+    delete:
+      tags:
+      - "Todo"
+      summary: "Delete a Todo"
+      description: ""
+      operationId: "deleteTodo"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "path"
+        name: "id"
+        type: integer
+        required: true
+      responses:
+        "204":
+          description: "No content"
+definitions:
+  BaseTodo:
+    type: object
+    properties:
+      name:
+        type: string
+        example: "Learn go"
+      description:
+        type: string
+        example: "Should follow a golang tutorial to learn a new language"
+      status:
+        type: string
+        example: "pending"
+  CreateTodo:
+    allOf:
+      - $ref: '#/definitions/BaseTodo'
+  Todo:
+    allOf:
+      - type: object
+        properties:
+          id:
+            type: integer
+            example: 1
+      - $ref: '#/definitions/BaseTodo'
+  TodoList:
+    type: array
+    items:
+      $ref: '#/definitions/Todo'
